@@ -1,6 +1,17 @@
 from datetime import datetime, timedelta
+import csv
+
 
 data = []
+
+try:
+    with open("kakeibo.csv","r",encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        data = list(reader)
+    print("既存データを読み込みました")
+except FileExistsError:
+    print("新しい家計簿を作成します")
+
 
 
 while True:
@@ -20,6 +31,14 @@ while True:
         "item":item,
         "price":price})
     print("追加しました")
+
+with open("kakeibo.csv","w",newline = "",encoding="utf-8") as f:
+    writer = csv.DictWriter(f,fieldnames=["date","item","price"])
+    writer.writeheader()
+    writer.writerows(data)
+
+print("データを保存しました")
+
 
 total = 0
 for d in data:
