@@ -101,11 +101,13 @@ def add_data(data):
             print("金額は数字で入力してください")
             continue
 
-    data.append({
-        "date":datetime.now().strftime("%Y-%m-%d"),
-        "item":item,
-        "price":price
-        })
+        data.append({
+            "date":datetime.now().strftime("%Y-%m-%d"),
+            "item":item,
+            "price":price
+            })
+        
+        print("追加しました")
 
 
 
@@ -135,7 +137,6 @@ while True:
 
     elif cmd == "add":
         add_data(data)
-        print("追加しました")
         write_csv(data)
 
     else:
