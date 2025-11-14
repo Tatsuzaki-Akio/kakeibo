@@ -9,5 +9,4 @@ CSV ファイルへの保存、データの追加・削除・編集、一覧表�
 - 関数のモジュール化（ファイル分割）  
 - GUI 実装（Tkinter / CustomTkinter）
 
-git config --global user.name "Tatsuzaki-Akio"
-git config --global user.email "yuto20020314@gmail.com"
+
