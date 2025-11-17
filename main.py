@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 import csv
+#import customtkinter as ctk
 
 now = datetime.now()
 
@@ -12,16 +13,30 @@ def del_data(data):
             if num == 0:
                 print("削除をキャンセルしました")
                 break
-
-            del data[num - 1]
-            print("削除しました")
-            break
-
-        except IndexError:
-            print("有効な数字を入力してください")
         
+            result = entry_del_data(data,num)
+            if result:
+                print("削除しました")
+                break
+            
+            else:
+                print("有効な数字を入力してください")
+                continue
+
         except ValueError:
             print("数字を入力してください")
+            continue
+
+def entry_del_data(data,num):
+    try:
+        del data[num-1]
+        return True
+
+    except IndexError:
+        return False
+
+
+
 
 def show_data(data):
     for i,d in enumerate(data,1):
@@ -65,21 +80,40 @@ def edit_data(data):
         new_item = input("修正後の項目名（空欄なら変更無し）")
         new_price = input("修正後の金額（空欄なら変更無し）")
 
+        result = entry_edit_data(data,num,new_date,new_item,new_price)
+        if result:
+            print("修正が完了しました")
+        else:
+            print("金額は数字を入力してください")
+
+    except ValueError:
+        print("数字を入力してください")
+
+def entry_edit_data(data,num,new_date=None,new_item=None,new_price=None):
+    try:
+        target = data[num - 1]
+
+
         if new_date:
             target["date"] = new_date
         if new_item:
             target["item"] = new_item
         if new_price:
-            try:
-                target["price"] = int(new_price)
-            except ValueError:
-                print("金額は数字で入力してください")
+            target["price"] = int(new_price)
+ 
 
         data[num - 1] = target
-        print("データを修正しました")
-
+        return True
     except ValueError:
-        print("数字を入力してください")
+        return False
+
+    
+    
+    
+
+
+
+
 
 def add_data(data):
     while True:
@@ -100,14 +134,22 @@ def add_data(data):
         except ValueError:
             print("金額は数字で入力してください")
             continue
+    
+        entry_add_data(data,item,price,date=None)
+    print("保存しました")
 
-        data.append({
-            "date":datetime.now().strftime("%Y-%m-%d"),
-            "item":item,
-            "price":price
-            })
-        
-        print("追加しました")
+
+def entry_add_data(data,item,price,date=None):
+    if date is None:
+        date = datetime.now().strftime("%Y-%m-%d")
+    data.append({
+        "date":date,
+        "item":item,
+        "price":price
+        })  
+    return data
+    
+
 
 
 
