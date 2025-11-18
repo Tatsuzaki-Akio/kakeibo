@@ -40,23 +40,44 @@ def entry_del_data(data,num):
 
 def show_data(data):
     for i,d in enumerate(data,1):
-        print(f"{i},{d['date']}:{d['item']},{d['price']}")
+        line = entry_show_data(i,d)
+        print(line)
+
+def entry_show_data(i,d):
+    return f"{i},{d['date']}:{d['item']},{d['price']}"
 
 def write_csv(data):
+    fieldnames,rows = entry_write_data(data)
     with open("kakeibo.csv","w",newline="",encoding="utf-8") as f:
-        writer = csv.DictWriter(f,fieldnames=["date","item","price"])
+        writer = csv.DictWriter(f,fieldnames=fieldnames)
         writer.writeheader()
-        writer.writerows(data)
+        writer.writerows(rows)
+
+
+def entry_write_data(data):
+    fieldnames = ["date","item","price"]
+    rows = data
+    return fieldnames,rows
 
 def read_csv():
     try:
         with open("kakeibo.csv","r",encoding="utf-8") as f:
-            reader = csv.DictReader(f)
-            data = list(reader)#なんで丸括弧じゃないとエラーが出るのか
+            data = entry_read_csv(f)
             return data
+
     except FileNotFoundError:
         print("新しい家計簿を作成しました")
         return[]
+    
+def entry_read_csv(f):
+    reader = csv.DictReader(f)
+    data = list(reader)
+    return data
+
+
+
+
+
     
 def edit_data(data):
     if not data:
